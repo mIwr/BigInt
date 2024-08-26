@@ -78,7 +78,21 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Returns: The BInt with value `x`
     public init(_ x: Int) {
         if x == Int.min {
-            self.init([0x8000000000000000], true)
+            self.init([UInt64(truncatingIfNeeded: Int.min)], true)
+        } else if x < 0 {
+            self.init([Limb(-x)], true)
+        } else {
+            self.init([Limb(x)], false)
+        }
+    }
+    
+    /// Constructs a BInt from an Int64 value
+    ///
+    /// - Parameter x: Int64 value
+    /// - Returns: The BInt with value `x`
+    public init(_ x: Int64) {
+        if x == Int64.min {
+            self.init([UInt64(truncatingIfNeeded: Int64.min)], true)
         } else if x < 0 {
             self.init([Limb(-x)], true)
         } else {
