@@ -58,10 +58,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     // MARK: - Initializers
     
-    /// Constructs a BInt from magnitude and sign
+    /// Constructs a `BInt` from magnitude and sign
     ///
     /// - Parameters:
-    ///   - magnitude: magnitude of value
+    ///   - magnitude: Magnitude of value
     ///   - isNegative: `true` means negative value, `false` means 0 or positive value, default is `false`
     public init(_ magnitude: Limbs, _ isNegative : Bool = false) {
         self.magnitude = magnitude
@@ -72,10 +72,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
     
-    /// Constructs a BInt from an Int value
+    /// Constructs a `BInt` from an `Int` value
     ///
-    /// - Parameter x: Int value
-    /// - Returns: The BInt with value `x`
+    /// - Parameter x: The `Int` value
     public init(_ x: Int) {
         if x == Int.min {
             self.init([UInt64(truncatingIfNeeded: Int.min)], true)
@@ -100,11 +99,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
     
-    /// Constructs a BInt from a decimal value
+    /// Constructs a `BInt` from a decimal value, `nil` if `d` is infinite or NaN
     ///
     /// - Parameters:
     ///   - d: The decimal value
-    /// - Returns: The BInt corresponding to `d` truncated to an integer value, `nil` if `d` is infinite or NaN
     public init?(_ d: Double) {
         if d.isNaN || d.isInfinite {
             return nil
@@ -119,18 +117,17 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
     
-    /// Constructs a BInt from a String value and radix
+    /// Constructs a `BInt` from a String value and radix, `nil` if `x` does not designate an integer in the given radix
     ///
     /// Examples:
     ///    * BInt("34111220000000000475892058")
-    ///    * BInt("90abcdef", radix = 16)
-    ///    * BInt("111110010", radix = 2)
-    ///    * BInt("1cdefghijk44", radix = 26)
+    ///    * BInt("90abcdef", radix: 16)
+    ///    * BInt("111110010", radix: 2)
+    ///    * BInt("1cdefghijk44", radix: 26)
     ///
     /// - Parameters:
     ///   - x: String value to be converted
     ///   - radix: Radix of x, from 2 to 36 inclusive, default is 10
-    /// - Returns: The BInt corresponding to `x`, `nil` if `x` does not designate an integer in the given radix
     public init?(_ x: String, radix: Int = 10) {
         if radix < 2 || radix > 36 {
             return nil
@@ -187,11 +184,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         self.init(magnitude, sign)
     }
 
-    /// Constructs a random BInt with a specified number of bits
+    /// Constructs a uniformly distributed random `BInt` in the range 0 ..< 2 ^ `bitWidth`
     ///
-    /// - Precondition: bitWidth is positive
+    /// - Precondition: `bitWidth` is positive
     /// - Parameter bitWidth: Number of bits
-    /// - Returns: A uniformly distributed random BInt in range 0 ..< 2 ^ `bitWidth`
     public init(bitWidth: Int) {
         precondition(bitWidth > 0, "Bitwidth must be positive")
         let (q, r) = bitWidth.quotientAndRemainder(dividingBy: 64)
@@ -204,11 +200,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         self.init(limbs)
     }
     
-    /// Constructs a BInt from a big-endian magnitude byte array
+    /// Constructs a `BInt` from a big-endian magnitude byte array
     ///
-    /// - Precondition: Byte array is not empty
-    /// - Parameter x: Magnitude big-endian byte array
-    /// 
+    /// - Precondition: `x` is not empty
+    /// - Parameter x: The big-endian magnitude byte array
+    ///
     /// Examples:
     ///    * The byte array [1, 0, 0] represents BInt value 65536
     ///    * The byte array [128, 0] represents BInt value 32768
@@ -223,10 +219,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         self.init(signed: bb)
     }
     
-    /// Constructs a BInt from a big-endian 2's complement byte array
+    /// Constructs a `BInt` from a big-endian 2's complement byte array
     ///
-    /// - Precondition: Byte array is not empty
-    /// - Parameter x: 2's complement big-endian byte array
+    /// - Precondition: `x` is not empty
+    /// - Parameter x: The big-endian 2's complement byte array
     ///
     /// Examples:
     ///    * The byte array [1, 0, 0] represents BInt value 65536
@@ -392,9 +388,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     static let d264 = Double(sign: .plus, exponent: 64, significand: 1.0) // = 2.0 ^ 64
     
-    /// `self` as a Double
+    /// `self` as a `Double`
     ///
-    /// - Returns: `self` as a Double or `Infinity` if `self` is not representable as a Double
+    /// - Returns: `self` as a `Double` or `Infinity` if `self` is not representable as a `Double`
     public func asDouble() -> Double {
         var d = 0.0
         for m in self.magnitude.reversed() {
@@ -404,9 +400,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         return self.isNegative ? -d : d
     }
     
-    /// `self` as an Int
+    /// `self` as an `Int`
     ///
-    /// - Returns: `self` as an Int or `nil` if `self` is not representable as an Int
+    /// - Returns: `self` as an `Int` or `nil` if `self` is not representable as an `Int`
     public func asInt() -> Int? {
         if self.magnitude.count > 1 {
             return nil
@@ -528,13 +524,13 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         return bb
     }
     
-    /// `self` as a String with a given radix
+    /// `self` as a `String` with a given radix
     ///
     /// - Precondition: Radix between 2 and 36 inclusive
     /// - Parameters:
     ///   - radix: Radix from 2 to 36 inclusive
     ///   - uppercase: `true` to use uppercase letters, `false` to use lowercase letters, default is `false`
-    /// - Returns: `self` as a String in the given radix
+    /// - Returns: `self` as a `String` in the given radix
     public func asString(radix: Int = 10, uppercase: Bool = false) -> String {
         precondition(radix >= 2 && radix <= 36, "Wrong radix \(radix)")
         if self.isZero {
@@ -693,35 +689,35 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Bitwise `not` operator - behaves as if two's complement arithmetic were used
     ///
     /// - Parameter x: BInt value
-    /// - Returns: -x - 1
+    /// - Returns: `-x - 1`
     public static prefix func ~(x: BInt) -> BInt {
         return -x - 1
     }
     
     /// Clear a specified bit - a no-op if bit number < 0
     ///
-    /// - Parameter n: Bit number
+    /// - Parameter n: The bit number
     public mutating func clearBit(_ n: Int) {
         self.magnitude.clearBitAt(n)
     }
     
     /// Invert a specified bit - a no-op if bit number < 0
     ///
-    /// - Parameter n: Bit number
+    /// - Parameter n: The bit number
     public mutating func flipBit(_ n: Int) {
         self.magnitude.flipBitAt(n)
     }
     
     /// Set a specified bit - a no-op if bit number < 0
     ///
-    /// - Parameter n: Bit number
+    /// - Parameter n: The bit number
     public mutating func setBit(_ n: Int) {
         self.magnitude.setBitAt(n)
     }
     
     /// Test a specified bit - `false` if bit number < 0
     ///
-    /// - Parameter n: Bit number
+    /// - Parameter n: The bit number
     /// - Returns: `true` if bit is set, `false` otherwise
     public func testBit(_ n: Int) -> Bool {
         return self.magnitude.testBitAt(n)
@@ -732,8 +728,8 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// Prefix plus
     ///
-    /// - Parameter x: BInt value
-    /// - Returns: x
+    /// - Parameter x: Operand
+    /// - Returns: `x`
     public prefix static func +(x: BInt) -> BInt {
         return x
     }
@@ -743,7 +739,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: First addend
     ///   - y: Second addend
-    /// - Returns: x + y
+    /// - Returns: `x + y`
     public static func +(x: BInt, y: BInt) -> BInt {
         var sum = x
         sum += y
@@ -755,7 +751,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: First addend
     ///   - y: Second addend
-    /// - Returns: x + y
+    /// - Returns: `x + y`
     public static func +(x: Int, y: BInt) -> BInt {
         var sum = y
         sum += x
@@ -767,7 +763,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: First addend
     ///   - y: Second addend
-    /// - Returns: x + y
+    /// - Returns: `x + y`
     public static func +(x: BInt, y: Int) -> BInt {
         var sum = x
         sum += y
@@ -835,7 +831,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Negation
     ///
     /// - Parameter x: Operand
-    /// - Returns: -x
+    /// - Returns: `-x`
     public static prefix func -(x: BInt) -> BInt {
         var y = x
         y.negate()
@@ -850,7 +846,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Minuend
     ///   - y: Subtrahend
-    /// - Returns: x - y
+    /// - Returns: `x - y`
     public static func -(x: BInt, y: BInt) -> BInt {
         var diff = x
         diff -= y
@@ -862,7 +858,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Minuend
     ///   - y: Subtrahend
-    /// - Returns: x - y
+    /// - Returns: `x - y`
     public static func -(x: Int, y: BInt) -> BInt {
         var diff = y
         diff -= x
@@ -874,7 +870,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Minuend
     ///   - y: Subtrahend
-    /// - Returns: x - y
+    /// - Returns: `x - y`
     public static func -(x: BInt, y: Int) -> BInt {
         var diff = x
         diff -= y
@@ -937,7 +933,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Multiplier
     ///   - y: Multiplicand
-    /// - Returns: x \* y
+    /// - Returns: `x * y`
     public static func *(x: BInt, y: BInt) -> BInt {
         var prod = x
         prod *= y
@@ -949,7 +945,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Multiplier
     ///   - y: Multiplicand
-    /// - Returns: x \* y
+    /// - Returns: `x * y`
     public static func *(x: Int, y: BInt) -> BInt {
         var prod = y
         prod *= x
@@ -961,7 +957,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Multiplier
     ///   - y: Multiplicand
-    /// - Returns: x \* y
+    /// - Returns: `x * y`
     public static func *(x: BInt, y: Int) -> BInt {
         var prod = x
         prod *= y
@@ -1005,7 +1001,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     ///
     /// - Precondition: Divisor is not zero
     /// - Parameter x: Divisor - a BInt value
-    /// - Returns: Quotient and remainder of `self` / x
+    /// - Returns: Quotient and remainder of `self / x`
     public func quotientAndRemainder(dividingBy x: BInt) -> (quotient: BInt, remainder: BInt) {
         var quotient = BInt.ZERO
         var remainder = BInt.ZERO
@@ -1024,8 +1020,8 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Precondition: Divisor is not zero
     /// - Parameters:
     ///   - x: Divisor - a BInt value
-    ///   - quotient: Set to the quotient of `self` / x
-    ///   - remainder: Set to the remainder of `self` / x
+    ///   - quotient: Set to the quotient of `self / x`
+    ///   - remainder: Set to the remainder of `self / x`
     public func quotientAndRemainder(dividingBy x: BInt, _ quotient: inout BInt, _ remainder: inout BInt) {
         (quotient, remainder) = self.quotientAndRemainder(dividingBy: x)
     }
@@ -1034,7 +1030,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     ///
     /// - Precondition: Divisor is not zero
     /// - Parameter x: Divisor - an Int value
-    /// - Returns: Quotient and remainder of `self` / x
+    /// - Returns: Quotient and remainder of `self / x`
     public func quotientAndRemainder(dividingBy x: Int) -> (quotient: BInt, remainder: Int) {
         var divisor: Limb
         if x < 0 {
@@ -1055,8 +1051,8 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Precondition: Divisor is not zero
     /// - Parameters:
     ///   - x: Divisor - an Int value
-    ///   - quotient: Set to the quotient of `self` / x
-    ///   - remainder: Set to the remainder of `self` / x
+    ///   - quotient: Set to the quotient of `self / x`
+    ///   - remainder: Set to the remainder of `self / x`
     public func quotientAndRemainder(dividingBy x: Int, _ quotient: inout BInt, _ remainder: inout Int) {
         (quotient, remainder) = self.quotientAndRemainder(dividingBy: x)
     }
@@ -1065,7 +1061,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     ///
     /// - Precondition: Divisor is not zero
     /// - Parameter x: Divisor - a BInt value
-    /// - Returns: Quotient of `self` / x - undefined if the remainder is in fact not 0
+    /// - Returns: Quotient of `self / x` - undefined if the remainder is in fact not 0
     public func quotientExact(dividingBy x: BInt) -> BInt {
         return BInt(self.magnitude.divExact(x.magnitude), self.isNegative != x.isNegative)
     }
@@ -1076,7 +1072,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x / y
+    /// - Returns: `x / y`
     public static func /(x: BInt, y: BInt) -> BInt {
         return x.quotientAndRemainder(dividingBy: y).quotient
     }
@@ -1087,7 +1083,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x / y
+    /// - Returns: `x / y`
     public static func /(x: Int, y: BInt) -> BInt {
         return BInt(x) / y
     }
@@ -1098,7 +1094,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x / y
+    /// - Returns: `x / y`
     public static func /(x: BInt, y: Int) -> BInt {
         return x.quotientAndRemainder(dividingBy: y).quotient
     }
@@ -1132,7 +1128,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x % y
+    /// - Returns: `x % y`
     public static func %(x: BInt, y: BInt) -> BInt {
         return x.quotientAndRemainder(dividingBy: y).remainder
     }
@@ -1143,7 +1139,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x % y
+    /// - Returns: `x % y`
     public static func %(x: Int, y: BInt) -> BInt {
         return BInt(x) % y
     }
@@ -1154,7 +1150,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - x: Dividend
     ///   - y: Divisor
-    /// - Returns: x % y
+    /// - Returns: `x % y`
     public static func %(x: BInt, y: Int) -> BInt {
         return x % BInt(y)
     }
@@ -1179,11 +1175,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         x = x % y
     }
     
-    /// Modulus - `BInt` version
+    /// Modulus - BInt version
     ///
     /// - Precondition: Divisor is not zero
     /// - Parameter x: Divisor
-    /// - Returns: `self` `mod` x, a non-negative value
+    /// - Returns: `self` mod `x`, a non-negative value
     public func mod(_ x: BInt) -> BInt {
         let r = self % x
         if x.isNegative {
@@ -1193,11 +1189,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
     
-    /// Modulus - `Int` version
+    /// Modulus - Int version
     ///
     /// - Precondition: Divisor is not zero
     /// - Parameter x: Divisor
-    /// - Returns: `self` `mod` x, a non-negative value
+    /// - Returns: `self` mod `x`, a non-negative value
     public func mod(_ x: Int) -> Int {
         if x == Int.min {
             let r = Int(self.magnitude[0] & 0x7fffffffffffffff)
@@ -1211,11 +1207,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /*
      * Return self modinverse m
      */
-    /// Inverse modulus - `BInt` version
+    /// Inverse modulus - BInt version
     ///
     /// - Precondition: `self` and modulus are coprime, modulus is positive
     /// - Parameter m: Modulus
-    /// - Returns: If `self` and m are coprime, x such that (`self` \* x) mod m = 1
+    /// - Returns: If `self` and `m` are coprime, `x` such that (`self` * `x`) mod `m` = 1
     public func modInverse(_ m: BInt) -> BInt {
         precondition(m.isPositive, "Modulus must be positive")
         guard m > BInt.ONE else {
@@ -1248,11 +1244,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         return a.mod(m)
     }
     
-    /// Inverse modulus - `Int` version
+    /// Inverse modulus - Int version
     ///
     /// - Precondition: `self` and modulus are coprime, modulus is positive
     /// - Parameter m: Modulus
-    /// - Returns: If `self` and m are coprime, x such that (`self` \* x) mod m = 1
+    /// - Returns: If `self` and `m` are coprime, `x` such that (`self` * `x`) mod `m` = 1
     public func modInverse(_ m: Int) -> Int {
         precondition(m > 0, "Modulus must be positive")
         guard m > 1 else {
@@ -1302,46 +1298,44 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// - Parameters:
     ///   - a: Operand
     ///   - x: Non-negative exponent
-    /// - Returns: a^x
+    /// - Returns: `a^x`
     public static func **(a: BInt, x: Int) -> BInt {
         precondition(x >= 0, "Exponent must be non-negative")
         return x == 2 ? (a.magnitude.count > 16 ? BInt(a.magnitude.squared()) : a * a) : BInt(a.magnitude.raisedTo(x), a.isNegative && (x & 1 == 1))
     }
     
-    /*
-     * Return (self ** x) mod m
-     *
-     * Use Barrett reduction algorithm for x.bitWidth < 2048, else use Montgomery reduction algorithm
-     */
-    /// Modular exponentiation - `BInt` version
+    /// Modular exponentiation - BInt version
     ///
     /// - Precondition: Modulus is positive
     /// - Parameters:
     ///   - x: The exponent
     ///   - m: The modulus
-    /// - Returns: (`self`^x) mod m for positive x, ((`self`^-x) mod m) modInverse m for negative x
+    /// - Returns: (`self`^`x`) mod `m` for positive `x`, ((`self`^-`x`) mod `m`) modInverse `m` for negative `x`
     public func expMod(_ x: BInt, _ m: BInt) -> BInt {
         precondition(m.isPositive, "Modulus must be positive")
         if m.isOne {
             return BInt.ZERO
         }
         let exponent = x.isNegative ? -x : x
+        let trailing = m.trailingZeroBitCount
         var result: BInt
-        if exponent.magnitude.count <= 32 {
+        if trailing == 0 {
             result = BarrettModulus(self, m).expMod(exponent)
-        } else if m.isOdd {
-            result = MontgomeryModulus(self, m).expMod(exponent)
+        } else if m >> trailing == BInt.ONE {
+            result = Pow2Modulus(self, m).expMod(exponent)
         } else {
             
             // Split the modulus into an odd part and a power of 2 part
-            
-            let trailing = m.trailingZeroBitCount
+
             let oddModulus = m >> trailing
             let pow2Modulus = BInt.ONE << trailing
-            let a1 = MontgomeryModulus(self, oddModulus).expMod(exponent)
+            let a1 = BarrettModulus(self, oddModulus).expMod(exponent)
             let a2 = Pow2Modulus(self, pow2Modulus).expMod(exponent)
             let y1 = pow2Modulus.modInverse(oddModulus)
             let y2 = oddModulus.modInverse(pow2Modulus)
+            
+            // Combine via the Chinese Remainder Theorem
+
             result = (a1 * pow2Modulus * y1 + a2 * oddModulus * y2).mod(m)
         }
         if x.isNegative {
@@ -1353,14 +1347,14 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
             return result
         }
     }
-    
-    /// Modular exponentiation - `Int` version
+
+    /// Modular exponentiation - Int version
     ///
     /// - Precondition: Modulus is positive
     /// - Parameters:
     ///   - x: The exponent
     ///   - m: The modulus
-    /// - Returns: (`self`^x) mod m for positive x, ((`self`^-x) mod m) modInverse m for negative x
+    /// - Returns: (`self`^`x`) mod `m` for positive `x`, ((`self`^-`x`) mod `m`) modInverse `m` for negative `x`
     public func expMod(_ x: BInt, _ m: Int) -> Int {
         precondition(m > 0, "Modulus must be positive")
         if m == 1 {
@@ -1669,6 +1663,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     ///  * `BInt(x.magnitude >> n, x.isNegative)` if n > 0
     ///  * `BInt(x.magnitude << -n, x.isNegative)` if n < 0
     ///  * `x` if n = 0
+    ///
     /// - Parameters:
     ///   - x: Operand
     ///   - n: Shift count
@@ -1771,7 +1766,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// Checks whether `self` is prime using the Miller-Rabin algorithm
     ///
-    /// - Precondition: Probability parameter is positive
+    /// - Precondition: Probability parameter `p` is positive
     /// - Parameter p: If `true` is returned, `self` is prime with probability > 1 - 1/2^p
     /// - Returns: `true` if `self` is probably prime, `false` if `self` is definitely not prime
     public func isProbablyPrime(_ p: Int = 30) -> Bool {
@@ -1868,7 +1863,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// A probable prime number with a given bitwidth
     ///
-    /// - Precondition: bitWidth > 1
+    /// - Precondition: `bitWidth > 1`
     /// - Parameters:
     ///   - bitWidth: The bitWidth - must be > 1
     ///   - p: The returned number is prime with probability > 1 - 1/2^p, default value is 30
@@ -1880,7 +1875,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// Product of primes up to n
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameters:
     ///   - n: number to compute primorial for
     /// - Returns: The product of primes less than or equal to n
@@ -1926,7 +1921,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
      */
     /// n'th root
     ///
-    /// - Precondition: `self` is non-negative or `n` is odd, `n` is positive
+    /// - Precondition: `n` is positive, `self` is non-negative or `n` is odd
     /// - Parameter n: The root
     /// - Returns: The integer part of the n'th root of `self`
     public func root(_ n: Int) -> BInt {
@@ -1951,15 +1946,15 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// n'th root and remainder
     ///
-    /// - Precondition: `self` is non-negative or `n` is odd, `n` is positive
+    /// - Precondition: `n` is positive, `self` is non-negative or `n` is odd
     /// - Parameter n: The root
-    /// - Returns: root = the integer part of the n'th root of `self`, rem = `self` - root^n
+    /// - Returns: `root` = the integer part of the n'th root of `self` and `rem` = `self` - `root^n`
     public func rootRemainder(_ n: Int) -> (root: BInt, rem: BInt) {
         let x = self.root(n)
         return (root: x, rem: self - x ** n)
     }
     
-    /// Check whether `self` is a perfect root, that is, for some integer x and n > 1 `self` = x^n
+    /// Check whether `self` is a perfect root, that is, for some integer `x` and `n` > 1 `self` = `x^n`
     ///
     /// - Returns: `true` if `self` is a perfect root, else `false`
     public func isPerfectRoot() -> Bool {
@@ -2029,7 +2024,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Square root and remainder of a non-negative number
     ///
     /// - Precondition: `self` is non-negative
-    /// - Returns: root = the integer part of the square root of `self`, rem = `self` - root^2
+    /// - Returns: `root` = the integer part of the square root of `self` and `rem` = `self` - `root^2`
     public func sqrtRemainder() -> (root: BInt, rem: BInt) {
         precondition(!self.isNegative, "Square root of negative number")
         let l = (self.magnitude.count - 1) >> 2
@@ -2071,7 +2066,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         false, true, false, false, true, false, false, false, false, true, false, false, false, false, false, false,
         false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false]
     
-    /// Check whether `self` is a perfect square, that is, for some integer x `self` = x^2
+    /// Check whether `self` is a perfect square, that is, for some integer `x`, `self` = `x^2`
     ///
     /// - Returns: `true` if `self` is a perfect square, else `false`
     public func isPerfectSquare() -> Bool {
@@ -2085,10 +2080,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /*
      * [CRANDALL] - algorithm 2.3.8
      */
-    /// Square root modulo a prime number - `BInt` version
+    /// Square root modulo a prime number - BInt version
     ///
     /// - Parameter p: An odd prime number
-    /// - Returns: x, such that x^2 = `self` (mod p), or `nil` if no such x exists
+    /// - Returns: `x`, such that `x^2` = `self` mod `p`, or `nil` if no such x exists
     public func sqrtMod(_ p: BInt) -> BInt? {
         if self.jacobiSymbol(p) != 1 {
             return nil
@@ -2138,10 +2133,10 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
     
-    /// Square root modulo a prime number - `Int` version
+    /// Square root modulo a prime number - Int version
     ///
     /// - Parameter p: An odd prime number
-    /// - Returns: x, such that x^2 = `self` (mod p), or `nil` if no such x exists
+    /// - Returns: `x`, such that `x^2` = `self` mod `p`, or `nil` if no such x exists
     public func sqrtMod(_ p: Int) -> Int? {
         if self.jacobiSymbol(p) != 1 {
             return nil
@@ -2226,7 +2221,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     
     /// Compute binomial coefficient `n` over `k`
     ///
-    /// - Precondition: n >= k and k >= 0
+    /// - Precondition: `n >= k` and `k >= 0`
     /// - Parameters:
     ///   - n: First binomial parameter
     ///   - k: Second binomial parameter
@@ -2248,9 +2243,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// Factorial function
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameter n: Number to compute factorial for
-    /// - Returns: n!
+    /// - Returns: `n!`
     public static func factorial(_ n: Int) -> BInt {
         precondition(n >= 0)
         return Factorial(n).result
@@ -2258,7 +2253,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// n'th Fibonacci number
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameter n: The fibonacci index
     /// - Returns: The n'th fibonacci number
     public static func fibonacci(_ n: Int) -> BInt {
@@ -2272,7 +2267,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
      */
     /// Fibonacci pair, n'th and n'th + 1 Fibonacci number
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameter n: The fibonacci index
     /// - Returns: The n'th and n'th + 1 fibonacci number
     public static func fibonacci2(_ n: Int) -> (BInt, BInt) {
@@ -2310,7 +2305,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Greatest common divisor - BInt version
     ///
     /// - Parameter x: Operand
-    /// - Returns: Greatest common divisor of `self` and x
+    /// - Returns: Greatest common divisor of `self` and `x`
     public func gcd(_ x: BInt) -> BInt {
         if self.magnitude.count > BInt.RECURSIVE_GCD_LIMIT && x.magnitude.count > BInt.RECURSIVE_GCD_LIMIT {
             return self.recursiveGCD(x)
@@ -2322,7 +2317,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Greatest common divisor - Int version
     ///
     /// - Parameter x: Operand
-    /// - Returns: Greatest common divisor of `self` and x
+    /// - Returns: Greatest common divisor of `self` and `x`
     public func gcd(_ x: Int) -> BInt {
         return self.lehmerGCD(BInt(x))
     }
@@ -2334,7 +2329,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Extended greatest common divisor - BInt version
     ///
     /// - Parameter x: Operand
-    /// - Returns: Greatest common divisor `g` of `self` and `x`, and `a` and `b` such that `a` \* `self` + `b` \* `x` = `g`
+    /// - Returns: Greatest common divisor `g` of `self` and `x`, and `a` and `b` such that `a` * `self` + `b` * `x` = `g`
     public func gcdExtended(_ x: BInt) -> (g: BInt, a: BInt, b: BInt) {
         if self.magnitude.count > BInt.RECURSIVE_GCD_EXT_LIMIT && x.magnitude.count > BInt.RECURSIVE_GCD_EXT_LIMIT {
             return self.recursiveGCDext(x)
@@ -2346,7 +2341,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /// Extended greatest common divisor - Int version
     ///
     /// - Parameter x: Operand
-    /// - Returns: Greatest common divisor `g` of `self` and `x`, and `a` and `b` such that `a` \* `self` + `b` \* `x` = `g`
+    /// - Returns: Greatest common divisor `g` of `self` and `x`, and `a` and `b` such that `a` * `self` + `b` * `x` = `g`
     public func gcdExtended(_ x: Int) -> (g: BInt, a: BInt, b: BInt) {
         return self.lehmerGCDext(BInt(x))
     }
@@ -2354,12 +2349,12 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     /*
      * [CRANDALL] - algorithm 2.3.5
      */
-    /// Jacobi symbol - `BInt` version. If m is an odd prime, this is also the Legendre symbol
+    /// Jacobi symbol - BInt version. If m is an odd prime, this is also the Legendre symbol
     ///
-    /// - Precondition: m is positive and odd
+    /// - Precondition: `m` is positive and odd
     /// - Parameters:
     ///   - m: A positive, odd integer
-    /// - Returns: The Jacobi symbol of `self` and m: -1, 0, or 1
+    /// - Returns: The Jacobi symbol of `self` and `m`: -1, 0, or 1
     public func jacobiSymbol(_ m: BInt) -> Int {
         precondition(m.isPositive && m.isOdd)
         var m1 = m
@@ -2384,9 +2379,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         return m1.isOne ? t : 0
     }
 
-    /// Jacobi symbol - `Int` version. If m is an odd prime, this is also the Legendre symbol
+    /// Jacobi symbol - Int version. If `m` is an odd prime, this is also the Legendre symbol
     ///
-    /// - Precondition: m is positive and odd
+    /// - Precondition: `m` is positive and odd
     /// - Parameters:
     ///   - m: A positive, odd integer
     /// - Returns: The Jacobi symbol of `self` and m: -1, 0, or 1
@@ -2414,11 +2409,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         return m1 == 1 ? t : 0
     }
 
-    /// Kronecker symbol - `BInt` version. If m is positive and odd, this is also the Jacobi symbol
+    /// Kronecker symbol - BInt version. If `m` is positive and odd, this is also the Jacobi symbol
     ///
     /// - Parameters:
     ///   - m: An integer value
-    /// - Returns: The Kronecker symbol of `self` and m: -1, 0, or 1
+    /// - Returns: The Kronecker symbol of `self` and `m`: -1, 0, or 1
     public func kroneckerSymbol(_ m: BInt) -> Int {
         if m.isPositive {
             if m.isOdd {
@@ -2438,11 +2433,11 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
         }
     }
 
-    /// Kronecker symbol - `Int` version. If m is positive and odd, this is also the Jacobi symbol
+    /// Kronecker symbol - Int version. If `m` is positive and odd, this is also the Jacobi symbol
     ///
     /// - Parameters:
     ///   - m: An integer value
-    /// - Returns: The Kronecker symbol of `self` and m: -1, 0, or 1
+    /// - Returns: The Kronecker symbol of `self` and `m`: -1, 0, or 1
     public func kroneckerSymbol(_ m: Int) -> Int {
         if m > 0 {
             if m & 1 == 1 {
@@ -2480,7 +2475,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// n'th Lucas number
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameter n: The lucas index
     /// - Returns: The n'th lucas number
     public static func lucas(_ n: Int) -> BInt {
@@ -2490,7 +2485,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// Lucas pair, n'th and n'th + 1 Lucas number
     ///
-    /// - Precondition: n >= 0
+    /// - Precondition: `n >= 0`
     /// - Parameter n: The lucas index
     /// - Returns: The n'th and n'th + 1 lucas number
     public static func lucas2(_ n: Int) -> (BInt, BInt) {
@@ -2513,9 +2508,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// Random value
     ///
-    /// - Precondition: *x* < `self`
+    /// - Precondition: `x` < `self`
     /// - Parameter x: Lower bound smaller than `self`
-    /// - Returns: A uniformly distributed  random value in range *x* ..< `self`
+    /// - Returns: A uniformly distributed  random value in range `x` ..< `self`
     public func randomFrom(_ x: BInt) -> BInt {
         precondition(x < self, "Too large")
         return (self - x).randomLessThan() + x
@@ -2523,9 +2518,9 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
 
     /// Random value
     ///
-    /// - Precondition: `self` < *x*
+    /// - Precondition: `self` < `x`
     /// - Parameter x: Upper bound larger than `self`
-    /// - Returns: A uniformly distributed random value in range `self` ..< *x*
+    /// - Returns: A uniformly distributed random value in range `self` ..< `x`
     public func randomTo(_ x: BInt) -> BInt {
         precondition(self < x, "Too small")
         return (x - self).randomLessThan() + self

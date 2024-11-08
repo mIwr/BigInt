@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "SwBigInt"
-  spec.version      = "1.19.2"
+  spec.version      = "1.20.1"
   spec.summary      = "Arbitrary-precision integer arithmetic in Swift"
   spec.author       = { "Leif Ibsen" => "https://github.com/leif-ibsen" }
   spec.homepage     = "https://github.com/leif-ibsen/BigInt"
