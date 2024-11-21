@@ -1,4 +1,12 @@
+## User-defined
+docs/
+docs/*
+BigInt.doccarchive
+BigInt.doccarchive/*
+
 .DS_Store
+__MACOSX/
+__MACOSX/*
 Packages
 DerivedData/
 

@@ -1707,15 +1707,29 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     // MARK: Prime number functions
     
     static internal func randomBytes(_ bytes: inout Bytes) {
+        #if targetEnvironment(simulator) || targetEnvironment(macCatalyst) || os(macOS) || os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
+        //Not avaiable on non-Apple platforms
         guard SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes) == errSecSuccess else {
             fatalError("randomBytes failed")
         }
+        #else
+        for i in 0...(bytes.count - 1) {
+            bytes[i] = UInt8.random(in: 0...UInt8.max)
+        }
+        #endif
     }
     
     static internal func randomLimbs(_ limbs: inout Limbs) {
+        #if targetEnvironment(simulator) || targetEnvironment(macCatalyst) || os(macOS) || os(iOS) || os(watchOS) || os(tvOS) || os(visionOS)
+        //Not avaiable on non-Apple platforms
         guard SecRandomCopyBytes(kSecRandomDefault, 8 * limbs.count, &limbs) == errSecSuccess else {
             fatalError("randomLimbs failed")
         }
+        #else
+        for i in 0...(limbs.count - 1) {
+            limbs[i] = UInt64.random(in: 0...UInt64.max)
+        }
+        #endif
     }
     
     // Small prime product
