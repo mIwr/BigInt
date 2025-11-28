@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8BAFA3A02ED9C95300CC4B87 /* BailliePSW.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAFA39F2ED9C95300CC4B87 /* BailliePSW.swift */; };
 		8BFE63BC2C78883400DF770C /* BigInt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BFE63B32C78883400DF770C /* BigInt.framework */; };
 		8BFE63DB2C78889C00DF770C /* BigFrac.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE63CD2C78889C00DF770C /* BigFrac.swift */; };
 		8BFE63DC2C78889C00DF770C /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE63CE2C78889C00DF770C /* GCD.swift */; };
@@ -68,6 +69,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8BAFA39F2ED9C95300CC4B87 /* BailliePSW.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BailliePSW.swift; sourceTree = "<group>"; };
 		8BFE63B32C78883400DF770C /* BigInt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BigInt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE63BB2C78883400DF770C /* BigIntTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BigIntTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE63CD2C78889C00DF770C /* BigFrac.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigFrac.swift; sourceTree = "<group>"; };
@@ -182,11 +184,12 @@
 				8BFE63D42C78889C00DF770C /* BigInt.docc */,
 				8BFE64332C788E6600DF770C /* PrivacyInfo.xcprivacy */,
 				8BFE63CD2C78889C00DF770C /* BigFrac.swift */,
+				8BAFA39F2ED9C95300CC4B87 /* BailliePSW.swift */,
+				8BFE63D22C78889C00DF770C /* BitSieve.swift */,
 				8BFE63CE2C78889C00DF770C /* GCD.swift */,
 				8BFE63CF2C78889C00DF770C /* Factorial.swift */,
 				8BFE63D02C78889C00DF770C /* FFT.swift */,
 				8BFE63D12C78889C00DF770C /* ExpMod.swift */,
-				8BFE63D22C78889C00DF770C /* BitSieve.swift */,
 				8BFE63D32C78889C00DF770C /* BurnikelZiegler.swift */,
 				8BFE63D52C78889C00DF770C /* ToomCook.swift */,
 				8BFE63D62C78889C00DF770C /* Karatsuba.swift */,
@@ -366,6 +369,7 @@
 				8BFE63E42C78889C00DF770C /* Karatsuba.swift in Sources */,
 				8BFE63E72C78889C00DF770C /* BigInt.swift in Sources */,
 				8BFE63DC2C78889C00DF770C /* GCD.swift in Sources */,
+				8BAFA3A02ED9C95300CC4B87 /* BailliePSW.swift in Sources */,
 				8BFE63DB2C78889C00DF770C /* BigFrac.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,7 +551,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -567,7 +571,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.6;
-				MARKETING_VERSION = 1.21.2;
+				MARKETING_VERSION = 1.22.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = org.zeit.bigint;
@@ -588,7 +592,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -608,7 +612,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.6;
-				MARKETING_VERSION = 1.21.2;
+				MARKETING_VERSION = 1.22.1;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = org.zeit.bigint;

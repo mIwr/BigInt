@@ -36,7 +36,7 @@ To use BigInt, in your project Package.swift file add a dependency like
 
 ```swift
 dependencies: [
-  package(url: "https://github.com/mIwr/BigInt", from: "1.21.2"),
+  package(url: "https://github.com/mIwr/BigInt", from: "1.22.1"),
 ]
 ```
 
@@ -65,6 +65,6 @@ BigInt requires Swift 5.0. It also requires that the `Int` and `UInt` types be 6
 - <doc:AboutBInt>
 - <doc:AboutBFraction>
 - <doc:AboutCRT>
+- <doc:Algorithms>
 - <doc:Performance>
 - <doc:References>
-- <doc:Algorithms>
