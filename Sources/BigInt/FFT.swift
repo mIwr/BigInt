@@ -253,3 +253,7 @@ extension Array where Element == Limb {
     }
 
 }
+
+#if swift(>=5.5)
+extension Fermat: Sendable {}
+#endif

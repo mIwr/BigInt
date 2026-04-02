@@ -1,10 +1,10 @@
-// swift-tools-version:5.10
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
     name: "BigInt",
     platforms: [
-        .macOS(.v10_12), .macCatalyst(.v13), .iOS(.v9), .tvOS(.v9), .watchOS(.v2), .visionOS(.v1)
+        .macOS(.v10_12), .macCatalyst(.v13), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)
     ],
     products: [
         .library(name: "BigInt", targets: ["BigInt"]),

@@ -96,3 +96,7 @@ public struct CRT {
     }
     
 }
+
+#if swift(>=5.5)
+extension CRT: Sendable {}
+#endif

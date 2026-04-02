@@ -36,7 +36,7 @@ To use BigInt, in your project Package.swift file add a dependency like
 
 ```swift
 dependencies: [
-  package(url: "https://github.com/mIwr/BigInt", from: "1.22.1"),
+  package(url: "https://github.com/mIwr/BigInt", from: "1.23.1"),
 ]
 ```
 

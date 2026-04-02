@@ -2515,3 +2515,7 @@ public struct BInt: CustomStringConvertible, Comparable, Equatable, Hashable {
     }
 
 }
+
+#if swift(>=5.5)
+extension BInt: Sendable {}
+#endif
